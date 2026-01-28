@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from "react"; // adjust path if needed
+
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Card } from "react-bootstrap";
+import API from "../utils/api";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });

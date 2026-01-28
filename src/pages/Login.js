@@ -1,8 +1,7 @@
-import React, { useState } from "react"; // adjust path if needed
-
+import React, { useState } from "react";
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Card } from "react-bootstrap";
-import API from "../utils/api";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -41,6 +40,7 @@ const Login = () => {
               required
             />
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -51,6 +51,7 @@ const Login = () => {
               required
             />
           </Form.Group>
+
           <Button type="submit" variant="primary" className="w-100">
             Login
           </Button>

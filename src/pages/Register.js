@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import API from "../utils/api";
-
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Card } from "react-bootstrap";
 
@@ -10,6 +9,7 @@ const Register = () => {
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -38,13 +38,13 @@ const Register = () => {
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               required
             />
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -55,6 +55,7 @@ const Register = () => {
               required
             />
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -65,6 +66,7 @@ const Register = () => {
               required
             />
           </Form.Group>
+
           <Button type="submit" variant="success" className="w-100">
             Register
           </Button>

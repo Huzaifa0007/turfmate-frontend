@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Container, Card, Row, Col, Spinner, Alert } from "react-bootstrap";
 
 const MyBookings = () => {
@@ -10,12 +9,9 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/bookings/mybookings",
-          {
-            headers: { Authorization: `Bearer ${userInfo.token}` },
-          },
-        );
+        const { data } = await API.get("/bookings/mybookings", {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
         setBookings(data);
       } catch (error) {
         console.error("Error fetching bookings:", error);

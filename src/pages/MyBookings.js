@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Card, Row, Col, Spinner, Alert } from "react-bootstrap";
+import API from "../utils/api";
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);

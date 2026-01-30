@@ -1,28 +1,42 @@
 import React, { useEffect, useState } from "react";
 import API from "../utils/api";
 import TurfCard from "../components/TurfCard";
-import { Row, Col, Form, Container } from "react-bootstrap";
+import { Row, Col, Form, Container, Button } from "react-bootstrap";
+import SkeletonCard from "../components/SkeletonCard";
+
+const ITEMS_PER_LOAD = 6;
 
 const Home = () => {
   const [turfs, setTurfs] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [priceRange, setPriceRange] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const cities = [...new Set(turfs.map((t) => t.city))];
 
   useEffect(() => {
     const fetchTurfs = async () => {
       try {
+        setLoading(true);
         const res = await API.get("/turfs");
         setTurfs(res.data);
       } catch (error) {
         console.error("Error fetching turfs:", error);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchTurfs();
   }, []);
 
-  // ✅ Filter by name, location, or city
+  // Reset visible count when filters/search change
+  useEffect(() => {
+    setVisibleCount(ITEMS_PER_LOAD);
+  }, [searchTerm, selectedCity, priceRange]);
+
   const filteredTurfs = turfs.filter((turf) => {
     const matchesSearch = `${turf.name} ${turf.location} ${turf.city}`
       .toLowerCase()
@@ -50,15 +64,15 @@ const Home = () => {
     return matchesSearch && matchesCity && matchesPrice;
   });
 
+  const visibleTurfs = filteredTurfs.slice(0, visibleCount);
+
   return (
     <Container className="mt-4">
       <h2 className="text-center mb-4">Available Turfs</h2>
 
-      {/* 🔍 Search Bar */}
-      {/* 🔍 Search & Filters */}
+      {/* Filters */}
       <Form className="mb-4">
         <Row className="g-3 align-items-end">
-          {/* Search */}
           <Col md={6}>
             <Form.Group>
               <Form.Label className="fw-semibold">Search Turf</Form.Label>
@@ -71,7 +85,6 @@ const Home = () => {
             </Form.Group>
           </Col>
 
-          {/* City Filter */}
           <Col md={3}>
             <Form.Group>
               <Form.Label className="fw-semibold">City</Form.Label>
@@ -89,7 +102,6 @@ const Home = () => {
             </Form.Group>
           </Col>
 
-          {/* Price Filter */}
           <Col md={3}>
             <Form.Group>
               <Form.Label className="fw-semibold">
@@ -113,8 +125,14 @@ const Home = () => {
       </Form>
 
       <Row>
-        {filteredTurfs.length > 0 ? (
-          filteredTurfs.map((turf) => (
+        {loading ? (
+          Array.from({ length: 6 }).map((_, i) => (
+            <Col md={4} key={i} className="mb-4">
+              <SkeletonCard />
+            </Col>
+          ))
+        ) : visibleTurfs.length > 0 ? (
+          visibleTurfs.map((turf) => (
             <Col md={4} key={turf._id} className="mb-4">
               <TurfCard turf={turf} />
             </Col>
@@ -123,6 +141,18 @@ const Home = () => {
           <p className="text-center">No turfs found.</p>
         )}
       </Row>
+
+      {/* Load More */}
+      {visibleCount < filteredTurfs.length && (
+        <div className="text-center mt-4">
+          <Button
+            variant="outline-primary"
+            onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_LOAD)}
+          >
+            Load More
+          </Button>
+        </div>
+      )}
     </Container>
   );
 };

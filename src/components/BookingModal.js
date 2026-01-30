@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import axios from "axios";
 import API from "../utils/api";
 
 const BookingModal = ({ show, handleClose, turf }) => {

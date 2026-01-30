@@ -1,0 +1,46 @@
+.skeleton-card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.skeleton-img {
+  height: 200px;
+  background: #e0e0e0;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-title,
+.skeleton-text,
+.skeleton-btn {
+  background: #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 70%;
+}
+
+.skeleton-text {
+  height: 15px;
+  width: 50%;
+}
+
+.skeleton-btn {
+  height: 38px;
+  width: 100%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
